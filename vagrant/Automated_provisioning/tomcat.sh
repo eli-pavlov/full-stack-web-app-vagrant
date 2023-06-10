@@ -1,17 +1,24 @@
-TOMURL="https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz"
-yum install java-1.8.0-openjdk -y
-yum install git maven wget -y
-cd /tmp/
-wget $TOMURL -O tomcatbin.tar.gz
-EXTOUT=`tar xzvf tomcatbin.tar.gz`
-TOMDIR=`echo $EXTOUT | cut -d '/' -f1`
-useradd --shell /sbin/nologin tomcat
-rsync -avzh /tmp/$TOMDIR/ /usr/local/tomcat8/
-chown -R tomcat.tomcat /usr/local/tomcat8
+#TOMURL="https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz"
+sudo echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+sudo yum install java-1.8.0-openjdk -y
+sudo yum install git maven wget -y
+#sudo cd /tmp/
+#sudo wget $TOMURL -O tomcatbin.tar.gz
+#EXTOUT=`tar xzvf tomcatbin.tar.gz`
+#TOMDIR=`echo $EXTOUT | cut -d '/' -f1`
+#sudo useradd --shell /sbin/nologin tomcat
+sudo mkdir /usr/local/tomcat8 -p
+sudo useradd --home-dir /usr/local/tomcat8 --shell /sbin/nologin tomcat
+sudo groupadd tomcat
+sudo chown -R tomcat:tomcat /usr/local/tomcat8
+sudo wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz
+sudo tar xzvf apache-tomcat-8.5.37.tar.gz
+sudo cp -r /home/vagrant/apache-tomcat-8.5.37/* /usr/local/tomcat8/
+#sudo rsync -avzh /tmp/$TOMDIR/ /usr/local/tomcat8/
+sudo chown tomcat:tomcat /usr/local/tomcat8 -R
+sudo rm -rf /etc/systemd/system/tomcat.service
 
-rm -rf /etc/systemd/system/tomcat.service
-
-cat <<EOT>> /etc/systemd/system/tomcat.service
+sudo cat <<EOT>> /etc/systemd/system/tomcat.service
 [Unit]
 Description=Tomcat
 After=network.target
@@ -23,7 +30,7 @@ Group=tomcat
 
 WorkingDirectory=/usr/local/tomcat8
 
-#Environment=JRE_HOME=/usr/lib/jvm/jre
+Environment=JRE_HOME=/usr/lib/jvm/jre
 Environment=JAVA_HOME=/usr/lib/jvm/jre
 
 Environment=CATALINA_PID=/var/tomcat/%i/run/tomcat.pid
@@ -42,18 +49,20 @@ WantedBy=multi-user.target
 
 EOT
 
-systemctl daemon-reload
-systemctl start tomcat
-systemctl enable tomcat
+sudo systemctl daemon-reload
+sudo systemctl start tomcat
+sudo systemctl enable tomcat
 
-git clone -b local-setup https://github.com/devopshydclub/vprofile-project.git
-cd vprofile-project
-mvn install
-systemctl stop tomcat
-sleep 60
-rm -rf /usr/local/tomcat8/webapps/ROOT*
-cp target/vprofile-v2.war /usr/local/tomcat8/webapps/ROOT.war
-systemctl start tomcat
-sleep 120
-cp /vagrant/application.properties /usr/local/tomcat8/webapps/ROOT/WEB-INF/classes/application.properties
-systemctl restart tomcat
+sudo git clone -b local-setup https://github.com/devopshydclub/vprofile-project.git
+sudo cd vprofile-project/
+cd vprofile-project/
+sudo cp /home/vagrant/vprofile-project/* ./ -R
+sudo mvn install
+sudo systemctl stop tomcat
+sudo sleep 60
+sudo rm -rf /usr/local/tomcat8/webapps/ROOT*
+sudo cp target/vprofile-v2.war /usr/local/tomcat8/webapps/ROOT.war
+sudo systemctl start tomcat
+sudo sleep 120
+sudo cp /vagrant/application.properties /usr/local/tomcat8/webapps/ROOT/WEB-INF/classes/application.properties
+sudo systemctl restart tomcat

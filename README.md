@@ -22,6 +22,6 @@ Eli Pavlov
 
 Email: pavlov.eli@gmail.com
 
-GitHub: github.com/eli-
+GitHub: github.com/eli-pavlov
 
 Feel free to reach out with any questions or suggestions regarding this project. Your feedback is highly appreciated!

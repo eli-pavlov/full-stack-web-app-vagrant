@@ -6,6 +6,7 @@ Deploying a full stack web application can involve various components such as we
 
 ## Features
 
+
 ## Vagrant: 
 Vagrant allows you to create and manage development environments in a consistent and isolated manner. With a single configuration file, you can define the software stack, networking, and resources required for your application.
 

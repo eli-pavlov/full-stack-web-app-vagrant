@@ -1,25 +1,10 @@
-# Prerequisites
-#
-- JDK 1.8 or later
-- Maven 3 or later
-- MySQL 5.6 or later
+## Full Stack Web App Deployment using Vagrant & Ansible
+This repository showcases the deployment process of a full stack web application using Vagrant for virtualized development environments and Ansible for automated provisioning and configuration management. With the combined power of Vagrant and Ansible, you can effortlessly set up and manage both local and remote deployment environments for your web application.
 
-# Technologies 
-- Spring MVC
-- Spring Security
-- Spring Data JPA
-- Maven
-- JSP
-- MySQL
-# Database
-Here,we used Mysql DB 
-MSQL DB Installation Steps for Linux ubuntu 14.04:
-- $ sudo apt-get update
-- $ sudo apt-get install mysql-server
+## Overview
+Deploying a full stack web application can involve various components such as web servers, databases, backend services, and more. This repository provides a structured approach to automating the deployment process using Vagrant and Ansible, ensuring consistency and reproducibility across different environments.
 
-Then look for the file :
-- /src/main/resources/accountsdb
-- accountsdb.sql file is a mysql dump file.we have to import this dump to mysql db server
-- > mysql -u <user_name> -p accounts < accountsdb.sql
+## Features
+Vagrant: Vagrant allows you to create and manage development environments in a consistent and isolated manner. With a single configuration file, you can define the software stack, networking, and resources required for your application.
 
-
+## Ansible: Ansible automates provisioning, configuration management, and application deployment. By defining playbooks, you can specify the desired state of your servers and services, making it easy to replicate the setup across different environments.
